@@ -15,6 +15,7 @@ import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
+import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,12 +96,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         int page = employeePageQueryDTO.getPage();
         int pageSize = employeePageQueryDTO.getPageSize();
 
-        PageHelper.startPage(page,pageSize);
+        PageHelper.startPage(page, pageSize);
         Page<Employee> employeePage = employeeMapper.pageQuery(employeePageQueryDTO);
         long total = employeePage.getTotal();
         List<Employee> result = employeePage.getResult();
-        return new PageResult(total,result);
+        return new PageResult(total, result);
 
     }
+
+    @Override
+    public void status(Integer status, Long id) {
+
+        Employee e = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(e);
+    }
+
 
 }
