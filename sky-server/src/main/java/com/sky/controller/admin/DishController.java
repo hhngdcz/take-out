@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.dto.DishDTO;
+import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -30,7 +31,11 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
-
+    /**
+     *  新增菜品
+     * @param dishDTO
+     * @return
+     */
     @PostMapping
     @ApiOperation("新增菜品")
     public Result save(@RequestBody DishDTO dishDTO){
@@ -38,6 +43,28 @@ public class DishController {
         dishService.saveWithFlavor(dishDTO);
         return Result.success();
     }
+    @GetMapping("/page")
+    @ApiOperation("菜品分页查询")
+    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
+        log.info("菜品分页查询：{}",dishPageQueryDTO);
+        PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+    /**
+     * 菜品批量删除
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    @ApiOperation("删除菜品")
+    public Result deleteBatch(@RequestParam List<Long> ids){
+        log.info("删除菜品：{}",ids);
+
+        dishService.deleteBatch(ids);
+        return Result.success();
+    }
+
 
 
 
