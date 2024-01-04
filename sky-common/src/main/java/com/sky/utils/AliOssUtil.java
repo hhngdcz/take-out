@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 @Data
 @AllArgsConstructor
 @Slf4j
+
 public class AliOssUtil {
 
     private String endpoint;
