@@ -6,4 +6,13 @@ sky:
     database: sky_take_out
     username: root
     password: 123456
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI5tDUPEZw9LNJq5nBaL5n
+    access-key-secret: w7J8M3OlfEAjpIMmeC6gpy68IIVrvV
+    bucket-name: hhh-take-out
+  redis:
+    host: 62.234.170.139
+    port: 6379
+    password: 123456
 
