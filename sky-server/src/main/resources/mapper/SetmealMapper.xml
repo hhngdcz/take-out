@@ -2,6 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.SetmealMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal (name,category_id,price,image,description,create_time,update_time,create_user,update_user,status)
+        values
+            (#{name},#{categoryId},#{price},#{image},#{description},#{createTime},#{updateTime},#{createUser},#{updateUser},#{status})
+    </insert>
+    <update id="update">
+        update setmeal
+        <set>
+            <if test="name!=null">name=#{name}</if>
+            <if test="categoryId!=null">,category_id=#{categoryId}</if>
+            <if test="price!=null">,price=#{price}</if>
+            <if test="image!=null">,image=#{image}</if>
+            <if test="description!=null">,description=#{description}</if>
+            <if test="updateTime!=null">,update_time=#{updateTime}</if>
+            <if test="updateUser!=null">,update_user=#{updateUser}</if>
+            <if test="status!=null">,status=#{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteBatch">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 
     <select id="getSetmealIdsByDishIds" resultType="java.lang.Long">
@@ -11,5 +36,17 @@
             #{id}
         </foreach>
 
+    </select>
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+        select s.*, c.name as categoryName
+        from setmeal s
+        left outer join category c
+        on c.id = s.category_id
+        <where>
+            <if test="name!=null" >and s.name like concat('%',#{name},'%')</if>
+            <if test="categoryId!=null" >s.categoryId={#categoryId}</if>
+            <if test="status!=null" >s.status={#status}</if>
+        </where>
+        order by s.create_time desc
     </select>
 </mapper>

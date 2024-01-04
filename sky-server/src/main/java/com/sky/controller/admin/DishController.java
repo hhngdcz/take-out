@@ -5,10 +5,13 @@ import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
 import com.sky.service.DishService;
+import com.sky.vo.DishItemVO;
+import com.sky.vo.DishOverViewVO;
 import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -98,6 +101,12 @@ public class DishController {
 
     }
 
+    @GetMapping("/list")
+    @ApiOperation(value  = "根据分类id查询菜品")
+    public Result<List<Dish>> list(Long categoryId){
+        List<Dish> dishList=dishService.list(categoryId);
+        return Result.success(dishList);
 
+    }
 
 }
